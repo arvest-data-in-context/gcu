@@ -130,7 +130,11 @@ class File:
         return None
     
 def _process_media_get(path, file_list, new_filename, **kwargs):
-    """Once a file has been retrived, move it and return File objects."""   
+    """
+    Once a file has been retrived, move it and return File objects.
+    
+    This has been placed here to avoid circular imports and because is shared with downloads and uploads.
+    """   
 
     # Create directory if needed
     if os.path.isdir(os.path.join("/content", path)) == False:
