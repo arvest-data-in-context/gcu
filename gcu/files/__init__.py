@@ -1,1 +1,5 @@
-from .file import File, upload, download, download_zip, collect_files, download_folder_as_zip
+from .file import File
+from .downloads import download, download_zip
+from .uploads import upload
+from .colabs_out import download_colabs_folder_as_zip
+from .utils import collect_files

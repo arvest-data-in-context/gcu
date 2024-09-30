@@ -22,7 +22,7 @@ def write_json(file_object, **kwargs):
 
     # This because prezi3 gives string format. 
     content = file_object.content
-    if type(file_object.content) == str:
+    if isinstance(file_object.content, str):
         content = json.loads(file_object.content)
 
     with open(file_object.path, 'w') as json_file:
