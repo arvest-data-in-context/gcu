@@ -23,7 +23,7 @@ def write_json(file_object, **kwargs):
     if type(file_object.content) == str:
         content = json.loads(file_object.content)
 
-    with open(os.path.join(file_object.path, file_object.filename), 'w') as json_file:
+    with open(file_object.path, 'w') as json_file:
         json.dump(content, json_file, indent=kwargs.get("indent", 2))
 
 def write_xml(file_object):
