@@ -8,7 +8,10 @@ A collection of functions to make Google Colab notebooks cleaner
 
 required = [
     "requests", 
-    "numpy"
+    "numpy",
+    "Pillow",
+    "pydub",
+    "moviepy"
 ]
 
 setup(
