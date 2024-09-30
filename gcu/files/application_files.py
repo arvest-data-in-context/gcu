@@ -1,6 +1,6 @@
 import json
 import xml.etree.ElementTree as ET
-import os
+from .utils import check_and_create_dir
 
 def read_json(path):
     """Return json file as dict."""
@@ -17,6 +17,8 @@ def read_xml(path):
 
 def write_json(file_object, **kwargs):
     """Write the contents of the File object as json."""
+
+    check_and_create_dir(file_object.dir)
 
     # This because prezi3 gives string format. 
     content = file_object.content
