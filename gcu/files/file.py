@@ -5,6 +5,7 @@ from .application_files import *
 from .video_files import *
 from .audio_files import *
 from .image_files import *
+import uuid
 
 class File:
     def __init__(self, **kwargs) -> None:
@@ -127,3 +128,46 @@ class File:
 
         print("This file type is not supported for content writing!")
         return None
+    
+def _process_media_get(path, file_list, new_filename, **kwargs):
+    """Once a file has been retrived, move it and return File objects."""   
+
+    # Create directory if needed
+    if os.path.isdir(os.path.join("/content", path)) == False:
+        os.makedirs(os.path.join("/content", path))
+
+    # Create a list of new names if needed
+    new_names = file_list
+
+    # As uuids
+    if new_filename == "_uuid":
+        new_names = []
+        for item in file_list:
+            new_names.append(str(uuid.uuid4()) + os.path.splitext(os.path.basename(item))[1])
+    
+    # As string
+    elif isinstance(new_filename, str):
+        new_names = []
+        if len(file_list) == 1:
+            new_names.append(new_filename + os.path.splitext(os.path.basename(file_list[0]))[1])
+        else:
+            for i, item in enumerate(file_list):
+                new_names.append(new_filename + f" {i}" + os.path.splitext(os.path.basename(item))[1])
+    
+    # Move uploaded files
+    for i, item in enumerate(file_list):
+        original_path = os.path.join('/content', item)
+        new_path = os.path.join("/content", path, new_names[i])
+        os.rename(original_path, new_path)
+
+    # Create File objects
+    path_to_add = os.path.join("/content", path)
+    if path == "":
+        path_to_add = "/content"
+    if len(file_list) == 1:
+        return File(path = os.path.join(path_to_add, new_names[0]), read_content = kwargs.get("read_content", False), read_kwargs = kwargs.get("read_kwargs", {}))
+    else:
+        ret = []
+        for filename in new_names:
+            ret.append(File(path = os.path.join(path_to_add, filename), read_content = kwargs.get("read_content", False), read_kwargs = kwargs.get("read_kwargs", {})))
+        return ret
