@@ -19,3 +19,13 @@ def read_csv(path, **kwargs):
         return content
     elif kwargs.get("return_type", "list") == "np":
         return genfromtxt(path, delimiter = kwargs.get("delimiter", ","))
+    
+def write_plain(file_object):
+    """Write the contents of the File object as plain text."""
+
+    pass
+
+def write_csv(file_object):
+    """Write the contents of the File object as csv."""
+
+    pass

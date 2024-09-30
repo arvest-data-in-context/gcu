@@ -13,3 +13,13 @@ def read_xml(path):
     tree = ET.parse(path)
     root = tree.getroot()
     return root
+
+def write_json(file_object, **kwargs):
+    """Write the contents of the File object as json."""
+
+    pass
+
+def write_xml(file_object):
+    """Write the contents of the File object as xml."""
+
+    pass

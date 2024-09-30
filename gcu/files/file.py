@@ -78,6 +78,32 @@ class File:
             if self.filename != None and self.content == None:
                 self.read_content(**kwargs.get("read_kwargs", {}))
 
+    def write(self, **kwargs):
+        """Write the contents of the file at its folder under its filename."""
+
+        if self.mime[0] == "image":
+            write_image(self)
+        elif self.mime[0] == "audio":
+            write_audio(self)
+        elif self.mime[0] == "video":
+            write_video(self)
+        elif self.mime[0] == "application":
+            if self.mime[1] == "json":
+                write_json(self, **kwargs)
+            elif self.mime[1] == "xml":
+                write_xml(self)
+            else:
+                self._cannot_write_data()
+        elif self.mime[0] == "text":
+            if self.mime[1] == "plain":
+                write_plain(self)
+            elif self.mime[1] == "csv":
+                write_csv(self)
+            else:
+                self._cannot_write_data()
+        else:
+            self._cannot_write_data()
+
     def read_content(self, **kwargs):
         """
         Retrive the content of the file, the return type changes according to the type of file.
@@ -110,6 +136,12 @@ class File:
         """Return none when cannot read content."""
 
         print("This file type is not supported for content retrieval!")
+        return None
+    
+    def _cannot_write_data(self):
+        """Feedback for being unable to write content."""
+
+        print("This file type is not supported for content writing!")
         return None
 
 def download(url, path = "", **kwargs) -> Union[File, List[File]]:
